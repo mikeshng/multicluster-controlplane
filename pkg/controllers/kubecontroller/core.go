@@ -12,6 +12,7 @@ import (
 	"k8s.io/client-go/metadata"
 	restclient "k8s.io/client-go/rest"
 	"k8s.io/controller-manager/controller"
+	"k8s.io/klog/v2"
 	"k8s.io/kubernetes/pkg/controller/garbagecollector"
 	namespacecontroller "k8s.io/kubernetes/pkg/controller/namespace"
 	serviceaccountcontroller "k8s.io/kubernetes/pkg/controller/serviceaccount"
@@ -53,6 +54,7 @@ func startModifiedNamespaceController(ctx context.Context, controllerContext Con
 
 func startServiceAccountController(ctx context.Context, controllerContext ControllerContext) (controller.Interface, bool, error) {
 	sac, err := serviceaccountcontroller.NewServiceAccountsController(
+		klog.FromContext(ctx),
 		controllerContext.InformerFactory.Core().V1().ServiceAccounts(),
 		controllerContext.InformerFactory.Core().V1().Namespaces(),
 		controllerContext.ClientBuilder.ClientOrDie("service-account-controller"),

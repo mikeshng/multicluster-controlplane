@@ -499,7 +499,7 @@ func (o *BuiltInAuthenticationOptions) ToAuthenticationConfig() (kubeauthenticat
 	}
 
 	if ret.AuthenticationConfig != nil {
-		celComplier := cel.NewCompiler(environment.MustBaseEnvSet(environment.DefaultCompatibilityVersion(), false))
+		celComplier := cel.NewCompiler(environment.MustBaseEnvSet(environment.DefaultCompatibilityVersion()))
 		if err := apiservervalidation.ValidateAuthenticationConfiguration(celComplier, ret.AuthenticationConfig, []string{}).ToAggregate(); err != nil {
 			return kubeauthenticator.Config{}, err
 		}

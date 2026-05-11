@@ -27,6 +27,7 @@ import (
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/component-base/compatibility"
 	"k8s.io/component-base/featuregate"
 )
 
@@ -79,11 +80,12 @@ func (a *AdmissionOptions) ApplyTo(
 	kubeClient kubernetes.Interface,
 	dynamicClient dynamic.Interface,
 	features featuregate.FeatureGate,
+	effectiveVersion compatibility.EffectiveVersion,
 	pluginInitializers ...admission.PluginInitializer,
 ) error {
 	if a == nil {
 		return nil
 	}
 
-	return a.GenericAdmission.ApplyTo(c, informers, kubeClient, dynamicClient, features, pluginInitializers...)
+	return a.GenericAdmission.ApplyTo(c, informers, kubeClient, dynamicClient, features, effectiveVersion, pluginInitializers...)
 }

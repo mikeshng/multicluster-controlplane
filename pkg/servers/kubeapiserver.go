@@ -36,7 +36,9 @@ import (
 	"k8s.io/apiserver/pkg/server/filters"
 	genericoptions "k8s.io/apiserver/pkg/server/options"
 	serverstorage "k8s.io/apiserver/pkg/server/storage"
+	"k8s.io/apiserver/pkg/util/compatibility"
 	utilfeature "k8s.io/apiserver/pkg/util/feature"
+	basecompatibility "k8s.io/component-base/compatibility"
 	utilflowcontrol "k8s.io/apiserver/pkg/util/flowcontrol"
 	"k8s.io/apiserver/pkg/util/openapi"
 	"k8s.io/client-go/dynamic"
@@ -331,6 +333,7 @@ func buildGenericConfig(
 		clientgoExternalClient,
 		dynamicExternalClient,
 		utilfeature.DefaultFeatureGate,
+		compatibility.DefaultComponentGlobalsRegistry.EffectiveVersionFor(basecompatibility.DefaultKubeComponent),
 		genericInitializers...,
 	)
 	if err != nil {
